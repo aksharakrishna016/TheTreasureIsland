@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treasure Island Game</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: white; /* Changed background to white */
+            color: black; /* Updated text color for better readability */
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .game-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: #f8f9fa; /* Updated background to a light grey (Bootstrap's light variant) */
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Softened shadow */
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        function TreasureIslandGame() {
+            const [stage, setStage] = React.useState("start");
+
+            const renderGame = () => {
+                switch (stage) {
+                    case "start":
+                        return (
+                            <div>
+                               
+                                <img src="./treasure.gif" alt="Treasure Map" />
+                                <h2>Welcome to Treasure Island</h2>
+                                <p>Your mission is to find the treasure.</p>
+                                <p>You're at a crossroad. Where do you want to go?</p>
+                                <button className="btn btn-primary me-2" onClick={() => setStage("left")}>Left</button>
+                                <button className="btn btn-danger" onClick={() => setStage("right")}>Right</button>
+                            </div>
+                        );
+                    case "right":
+                        return( <GameOver message="You fell into a hole." />);
+                    case "left":
+                        return (
+                            <div>
+                              <img src="./treasure.gif" alt="Treasure Map" />
+                                <p>You've come to a lake. There is an island in the middle of the lake.</p>
+                                <p>What do you want to do?</p>
+                                <button className="btn btn-warning me-2" onClick={() => setStage("wait")}>Wait for a boat</button>
+                                <button className="btn btn-info" onClick={() => setStage("swim")}>Swim across</button>
+                            </div>
+                        );
+                    case "swim":
+                        return (<GameOver message="You got attacked by an angry trout." />);
+                    case "wait":
+                        return (
+                            <div>
+                              <img src="./treasure.gif" alt="Treasure Map" />
+                                <p>You arrive at the island unharmed. There is a house with 3 doors: one red, one yellow, and one blue.</p>
+                                <p>Which color do you choose?</p>
+                                <button className="btn btn-danger me-2" onClick={() => setStage("red")}>Red</button>
+                                <button className="btn btn-warning me-2" onClick={() => setStage("yellow")}>Yellow</button>
+                                <button className="btn btn-primary" onClick={() => setStage("blue")}>Blue</button>
+                            </div>
+                        );
+                    case "red":
+                        return <GameOver message="It's a room full of fire." />;
+                    case "blue":
+                        return <GameOver message="You enter a room full of beasts." />;
+                    case "yellow":
+                        return (
+                            <div>
+                              <img src="./treasure.gif" alt="Treasure Map" />
+                                <h2>🎉 Congratulations! You found the treasure! 🎉</h2>
+                                <button className="btn btn-success mt-3" onClick={() => setStage("start")}>Play Again</button>
+                            </div>
+                        );
+                    default:
+                        return (<GameOver message="You chose a door that doesn't exist." />);
+                }
+            };
+
+            return (
+                <div className="container mt-5">
+                    <div className="game-container">
+                        {renderGame()}
+                    </div>
+                </div>
+            );
+        }
+
+        function GameOver({ message }) {
+            return (
+                <div>
+                  <img src="./GameOver.gif" alt="Treasure Map" />
+                    <h2>💀 Game Over!</h2>
+                    <p>{message}</p>
+                    <button className="btn btn-success mt-3" onClick={() => location.reload()}>Play Again</button>
+                   
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById("root")).render(<TreasureIslandGame />);
+    </script>
+</body>
+</html>
